@@ -1,0 +1,104 @@
+package {
+    default_applicable_licenses: ["external_steam_audio_license"],
+}
+
+license {
+    name: "external_steam_audio_license",
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "SPDX-license-identifier-Apache-2.0",
+    ],
+    license_text: [
+        "LICENSE.md",
+    ],
+}
+
+cc_library_static {
+    name: "libsteamaudio",
+    vendor_available: true,
+
+    srcs: [
+        "core/src/core/api_hrtf.cpp",
+        "core/src/core/api_virtual_surround_effect.cpp",
+        "core/src/core/api_binaural_effect.cpp",
+        "core/src/core/api_panning_effect.cpp",
+        "core/src/core/api_ambisonics_panning_effect.cpp",
+        "core/src/core/api_audio_buffer.cpp",
+        "core/src/core/context.cpp",
+        "core/src/core/log.cpp",
+        "core/src/core/memory_allocator.cpp",
+        "core/src/core/profiler.cpp",
+        "core/src/core/audio_buffer.cpp",
+        "core/src/core/speaker_layout.cpp",
+        "core/src/core/array_math.cpp",
+        "core/src/core/window_function.cpp",
+        "core/src/core/math_functions.cpp",
+        "core/src/core/pffft_fft.cpp",
+        "core/src/core/hrtf.cpp",
+        "core/src/core/hrtf_map.cpp",
+        "core/src/core/hrtf_map_factory.cpp",
+        "core/src/core/hrtf_database.cpp",
+        "core/src/core/binaural_effect.cpp",
+        "core/src/core/virtual_surround_effect.cpp",
+        "core/src/core/overlap_add_convolution_effect.cpp",
+        "core/src/core/panning_effect.cpp",
+        "core/src/core/ambisonics_panning_effect.cpp",
+        "core/src/core/sh.cpp",
+        "core/src/core/sh/spherical_harmonics.cc",
+        "core/src/core/sampling.cpp",
+        "core/src/core/bands.cpp",
+        "core/src/core/api_stubs.cpp",
+        "core/src/core/api_functions.cpp",
+    ],
+
+    local_include_dirs: [
+        "core/src/core",
+    ],
+
+    export_include_dirs: [
+        "core/src/core",
+    ],
+
+    header_libs: [
+        "flatbuffer_headers",
+    ],
+
+    static_libs: [
+        "libpffft",
+    ],
+
+    shared_libs: [
+        "liblog",
+    ],
+
+    cflags: [
+        "-DIPL_DISABLE_SOFA",
+        "-DIPL_USES_PFFFT",
+        "-Wno-unused-parameter",
+        "-Wno-unused-variable",
+        "-Wno-sign-compare",
+        "-Wno-missing-field-initializers",
+        "-Wno-unused-function",
+        "-Wno-implicit-fallthrough",
+        "-Wno-reorder-init-list",
+        "-Wno-extra",
+        "-Wno-non-virtual-dtor",
+        "-Wno-delete-non-abstract-non-virtual-dtor",
+        "-Wno-reorder-ctor",
+        "-Wno-macro-redefined",
+    ],
+
+    cppflags: [
+        "-std=c++17",
+        "-fexceptions",
+        "-fno-rtti",
+    ],
+
+    lto: {
+        never: true,
+    },
+
+    visibility: [
+        "//packages/apps/AxionFx:__subpackages__",
+    ],
+}
