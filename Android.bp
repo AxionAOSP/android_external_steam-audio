@@ -18,19 +18,22 @@ cc_library_static {
     vendor_available: true,
 
     srcs: [
+        "core/src/core/api_context.cpp",
+        "core/src/core/api_stubs.cpp",
         "core/src/core/api_hrtf.cpp",
         "core/src/core/api_virtual_surround_effect.cpp",
         "core/src/core/api_binaural_effect.cpp",
         "core/src/core/api_panning_effect.cpp",
         "core/src/core/api_ambisonics_panning_effect.cpp",
         "core/src/core/api_audio_buffer.cpp",
+        "core/src/core/api_functions.cpp",
         "core/src/core/context.cpp",
         "core/src/core/log.cpp",
         "core/src/core/memory_allocator.cpp",
         "core/src/core/profiler.cpp",
+        "core/src/core/array_math.cpp",
         "core/src/core/audio_buffer.cpp",
         "core/src/core/speaker_layout.cpp",
-        "core/src/core/array_math.cpp",
         "core/src/core/window_function.cpp",
         "core/src/core/math_functions.cpp",
         "core/src/core/pffft_fft.cpp",
@@ -47,8 +50,6 @@ cc_library_static {
         "core/src/core/sh/spherical_harmonics.cc",
         "core/src/core/sampling.cpp",
         "core/src/core/bands.cpp",
-        "core/src/core/api_stubs.cpp",
-        "core/src/core/api_functions.cpp",
     ],
 
     local_include_dirs: [
@@ -72,6 +73,7 @@ cc_library_static {
     ],
 
     cflags: [
+        "-DSTEAMAUDIO_BUILDING_CORE",
         "-DIPL_DISABLE_SOFA",
         "-DIPL_USES_PFFFT",
         "-Wno-unused-parameter",

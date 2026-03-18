@@ -8,8 +8,26 @@ void Profiler::setProfilerContext(void*) {}
 
 namespace api {
 
-void CContext::release() {}
-void CContext::setProfilerContext(void*) {}
+IPLerror CContext::createContext(IPLContextSettings* settings, IContext** context) {
+    if (!settings || !context)
+        return IPL_STATUS_FAILURE;
+    if (!isVersionCompatible(settings->version))
+        return IPL_STATUS_FAILURE;
+
+    Context::sAPIVersion = settings->version;
+    auto _allocateCallback = reinterpret_cast<AllocateCallback>(settings->allocateCallback);
+    auto _freeCallback = reinterpret_cast<FreeCallback>(settings->freeCallback);
+    Context::sMemory.init(_allocateCallback, _freeCallback);
+
+    try {
+        auto _context = reinterpret_cast<CContext*>(gMemory().allocate(sizeof(CContext), Memory::kDefaultAlignment));
+        new (_context) CContext(settings);
+        *context = _context;
+    } catch (Exception exception) {
+        return static_cast<IPLerror>(exception.status());
+    }
+    return IPL_STATUS_SUCCESS;
+}
 
 IPLVector3 CContext::calculateRelativeDirection(IPLVector3, IPLVector3, IPLVector3, IPLVector3)
 { return IPLVector3{0, 0, -1}; }
